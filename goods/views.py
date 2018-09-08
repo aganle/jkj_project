@@ -24,3 +24,18 @@ class GoodsListView(BaseView, MultiObjectReturned):
         context.update(self.get_objects(page_num))
         return context
 
+
+class GoodsDetailView(BaseView):
+    template_name = 'details.html'
+    def handle_request_cookie(self, request):
+        # 获取cookie
+        pass
+
+    def handle_response_cookie(self, request):
+        # 设置cookie，填写用户浏览商品的id
+        pass
+
+    def get_extra_context(self, request):
+        goodsId = int(request.GET.get('goodsid'))
+        good = Goods.objects.get(id=goodsId)
+        return {'good': good}

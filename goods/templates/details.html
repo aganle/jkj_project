@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="detail-body" goodsid="25">
+        <!-- 面包屑 -->
+        <div class="bread">
+            <ul class="bread-content">
+                <li class="bread-item">
+                    <a href="http://127.0.0.1:8000/">首页</a>&gt;
+                </li>
+
+                <li class="bread-item">
+                    <a href="/?category={{good.categoryid.id}}">{{good.categoryid.cname}}</a>&gt;
+                </li>
+
+                <li class="bread-item">
+                    <a href="javascript:void(0);">{{good.gname}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- detail-content -->
+        <div class="detail-content">
+            <div class="detail-con-left">
+                <img id='leftimg' src="{{MEDIA_URL}}{{good.img}}">
+
+            </div>
+            <div class="detail-con-right">
+                <h3>{{good.gdesc}}</h3>
+                <div class="price">
+                    <i>￥</i>
+                    <p>{{good.gprice}}</p>
+                    <s>￥{{good.goldprice}}</s>
+                </div>
+
+                <div class="line"></div>
+                <div class="color">
+                    <p class="p-item">颜色：</p>
+                    <ul class="MinImgList">
+                                {% for color in good.colors %}
+                            <li class="MinImg {% if forloop.first %} active {% endif %}">
+                                <img src="{{MEDIA_URL}}{{color.value}}" width="30px" height="30px">
+                            </li>
+                                {% endfor %}
+                    </ul>
+                </div>
+                <div class="size">
+                    <p class="p-item">
+                        尺码：
+                    </p>
+                    <ul class="size-list">
+                            {% for size in good.sizes %}
+                            <li class="size-item {% if forloop.first %} active {% endif %}">{{size.value}}</li>
+                            {% endfor %}
+                    </ul>
+                </div>
+                <div class="num">
+                    <p class="p-item">
+                        数量：
+                    </p>
+                    <div class="jian">-</div>
+                    <input type="" name="" value="1">
+                    <div class="jia">+</div>
+                </div>
+                <a class="male" value="" href="javascript:void(0);" onclick="goCart()">单独购买</a>
+            </div>
+         <div class="detail-con-nav">
+        <ul class="detail-nav">
+            <li class="active nav-item "><a href="http://127.0.0.1:8000/details?goodsId=25#">商品详情</a></li>
+            <li class="nav-item"><a href="http://127.0.0.1:8000/details?goodsId=25#">物流与售后</a></li>
+            <li class="nav-item"><a href="http://127.0.0.1:8000/details?goodsId=25#">消费保障</a></li>
+            <li class="nav-item"><a href="http://127.0.0.1:8000/details?goodsId=25#">手机购买</a></li>
+        </ul>
+    </div>
+    <div class="sub-nav">
+        <ul class="subNav">
+            <li><a href="http://127.0.0.1:8000/details?goodsId=25#">整体款式</a></li>
+            <li><a href="http://127.0.0.1:8000/details?goodsId=25#">模特实拍</a></li>
+            <li><a href="http://127.0.0.1:8000/details?goodsId=25#">细节做工</a></li>
+        </ul>
+    </div>
+    <div class="zhanshi">
+        <div class="zhanshi-model">
+            <p>参数规格</p>
+            <div class="line"></div>
+            <img src="./详情_files/详情页_03.png" alt="">
+        </div>
+        <div class="zhanshi-model">
+            <p>整体款式</p>
+            <div class="line"></div>
+            <img src="./详情_files/详情页_06.png" alt="">
+        </div>
+        <div class="zhanshi-model">
+            <p>模特实拍</p>
+            <div class="line"></div>
+
+<img src="./详情_files/1_DNiW0D5.jpg" alt="">
+
+<img src="./详情_files/2_eHi0Rix.jpg" alt="">
+
+<img src="./详情_files/3_2e1cWcs.jpg" alt="">
+
+<img src="./详情_files/4_D0ck80V.jpg" alt="">
+
+<img src="./详情_files/5_bxMyxv5.jpg" alt="">
+
+<img src="./详情_files/6_Z4j72Ft.jpg" alt="">
+
+<img src="./详情_files/7_3QbFC0z.jpg" alt="">
+
+<img src="./详情_files/8_OQGcrwL.jpg" alt="">
+        </div>
+    </div>
+        </div>
+    </div>
+{% endblock main %}
+{% block footer %}
+<script>
+    $('.MinImg').click(function(){
+        $('.MinImg').removeClass('active');
+        $(this).addClass('active');
+        $('#leftimg').attr('src', $(this).children('img').attr('src'));
+    })
+    $('.size-list').click(function(){
+        $('.size-list').removeClass('active');
+        $(this).addClass('active');
+    })
+</script>
+{% endblock footer %}

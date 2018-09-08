@@ -13,7 +13,7 @@
         <div class="goods-content">
             {% for good in goods %}
                 <div class="good">
-                    <a href="#">
+                    <a href="/goodsdetails/?goodsid={{good.id}}">
                         <img src="{{ MEDIA_URL }}{{ good.img  }}" width="285px" height="285px">
                         <p class="name">{{ good.gname }}</p>
                         <div class="price">

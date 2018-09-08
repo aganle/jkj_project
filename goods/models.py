@@ -29,6 +29,29 @@ class Goods(models.Model):
     def img(self):
         return self.store_set.first().color.value
 
+    def colors(self):
+        # 获取所有颜色
+        stores = self.store_set.all()
+        colors = []
+        for store in stores:
+            # 获取颜色
+            color = store.color
+            if color not in colors:
+                colors.append(color)
+        return colors
+
+    def sizes(self):
+        # 获取尺寸
+        stores = self.store_set.all()
+        sizes = []
+        for store in stores:
+            # size与good是多对多关系
+            raw_sizes = store.size.all()
+            for size in raw_sizes:
+                if size not in sizes:
+                    sizes.append(size)
+        return sizes
+
     class Meta:
         managed = False
         db_table = 'shop_goods'
@@ -36,7 +59,7 @@ class Goods(models.Model):
 
 
 class Goodsdetails(models.Model):
-    value = models.CharField(max_length=100)
+    value = models.ImageField()
     goodsid = models.ForeignKey(Goods, models.DO_NOTHING, db_column='goodsId_id')  # Field name made lowercase.
 
     class Meta:

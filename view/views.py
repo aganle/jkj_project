@@ -1,5 +1,6 @@
 from django.views import View
 from django.shortcuts import render
+from django.http.response import HttpResponse
 
 
 class BaseView(View):
@@ -10,9 +11,13 @@ class BaseView(View):
         # prepare预处理，获取objects
         if hasattr(self, 'prepare'):
             getattr(self, 'prepare')(request, *args, **kwargs)
+        # 用于获取cookie
+        if hasattr(self, 'handle_request_cookie'):
+            getattr(self, 'handle_request_cookie')(request, *args, **kwargs)
         response = render(request, self.template_name, self.get_context(request))
-        if hasattr(self, 'destory'):
-            getattr(self, 'destory')(request)
+        # 用于添加cookie
+        if hasattr(self, 'handle_response_cookie'):
+            getattr(self, 'handle_response_cookie')(response, *args, **kwargs)
         return response
 
     def get_context(self, request):
