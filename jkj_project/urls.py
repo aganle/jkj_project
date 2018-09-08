@@ -13,9 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from jkj_project import settings
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('goods.urls')),
 ]
+
+# 实际完成后，media会部署到服务器上
+if settings.DEBUG:
+    from django.views.static import serve  # django处理静态文件的类
+    urlpatterns.append(url(r'^media/(?P<path>.*)$', serve, kwargs={'document_root': settings.MEDIA_ROOT}))
