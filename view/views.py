@@ -1,6 +1,6 @@
 from django.views import View
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.http.response import HttpResponseRedirect
 
 
 class BaseView(View):
@@ -28,3 +28,11 @@ class BaseView(View):
     def get_extra_context(self, request):
         # 让子类实现
         return {}
+
+# 需要处理一些业务逻辑
+class BaseRedirectView(View):
+    redirect_url = None  # 留给子类实现
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(self, 'handle'):
+            getattr(self, 'handle')(request, *args, **kwargs)
+        return HttpResponseRedirect(self.redirect_url)

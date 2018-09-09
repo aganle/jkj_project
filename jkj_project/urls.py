@@ -21,6 +21,7 @@ from jkj_project import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('goods.urls')),
+    url(r'')
 ]
 
 # 实际完成后，media会部署到服务器上
