@@ -21,7 +21,9 @@ from jkj_project import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('goods.urls')),
-    url(r'')
+    url(r'^cart/', include('cart.urls')),
+    url(r'^user/', include('user.urls')),
+    url(r'^order/', include('order.urls')),
 ]
 
 # 实际完成后，media会部署到服务器上

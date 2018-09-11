@@ -66,7 +66,7 @@
                     <input name="goodsid" hidden>
                     <input name="colorid" hidden>
                     <input name="sizeid" hidden>
-                    <input name="goodscount" hidden>
+                    <input name="count" hidden>
                     {% csrf_token %}
                     <button class="male" onclick="goCart()">单独购买</button>
                 </form>
@@ -161,7 +161,7 @@
         $('form').children('input[name="goodsid"]').val({{ good.id }});
         $('form').children('input[name="colorid"]').val($('.MinImg.active ').attr('colorid'));
         $('form').children('input[name="sizeid"]').val($('.size-item.active').attr('sizeid'));
-        $('form').children('input[name="goodscount"]').val($('.num').children('input[type=number]').val());
+        $('form').children('input[name="count"]').val($('.num').children('input[type=number]').val());
     }
 </script>
 {% endblock footer %}

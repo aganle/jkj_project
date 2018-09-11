@@ -1,0 +1,95 @@
+{% extends 'baseuser.html' %}
+{% load staticfiles %}
+{% block mainuserright %}
+    <h2>收货地址</h2>
+    <div class="add">
+        <div onclick="add()" >
+            <a href="http://127.0.0.1:8000/address/#2" id="addxad"><img src="{% static 'img/jia.png' %}"></a>
+            <span >添加新地址</span>
+        </div>
+    {% for add in  address %}
+    <div id="dizhi">
+        <p>{{ add.name }}</p>
+        <p>{{ add.phone }}</p>
+        <p>{{ add.province }} {{ add.city }} {{ add.area }}</p>
+        <p>{{ add.details }}</p>
+    </div>
+    {% endfor %}
+
+    </div>
+{% endblock mainuserright %}
+{% block footer %}
+<script>
+//    地址对话框
+    function add(){
+        $('.mask').show();
+        $('.adddz').show();
+    }
+
+    $('select[name="provinces"]').change(function(){
+        var provinceid = $(this).val();
+        $.ajax({
+            url: '/user/address/',
+            type: 'post',
+            data: 'type=get_cities&provinceid='+provinceid,
+            success: function (data){
+                var cities_data = data[0];
+                var city_node = $('select[name="cities"]');
+                show_data(cities_data, city_node, 'city');
+                var areas_data = data[1];
+                var area_node = $('select[name="areas"]');
+                show_data(areas_data, area_node, 'area');
+            }
+        })
+    })
+    $('select[name="cities"]').change(function(){
+        var cityid = $(this).val();
+        $.ajax({
+            url: '/user/address/',
+            type: 'post',
+            data: 'type=get_areas&cityid='+cityid,
+            success: function (data){
+                var areas_data = data;
+                var area_node = $('select[name="areas"]');
+                show_data(areas_data, area_node, 'area');
+            }
+        })
+    })
+
+    function  show_data(datas, node, show_name){
+        node.empty();
+        for(var i=0;i<datas.length;i++){
+            show_name = datas[i];
+            optionNode = document.createElement('option');
+            $(optionNode).val(show_name.id);
+            $(optionNode).text(show_name.name);
+            node.append(optionNode);
+        }
+    }
+
+    function save_address() {
+        var name = $('input[name="name"]').val();
+        var phone = $('input[name="phone"]').val();
+        var province = $('select[name="provinces"]').val();
+        var city = $('select[name="cities"]').val();
+        var area = $('select[name="areas"]').val();
+        var details = $('textarea[name="details"]').val();
+        var options = "type=save_address&name="+name + "&phone" + phone + "&provinceid=" + province + "&cityid=" + city + "&areaid=" + area + "&details=" + details;
+        console.log(options);
+        $.ajax({
+            url: '/user/address/',
+            type: 'post',
+            data: options,
+            success: function(data){
+                if(data.errorcode==200){
+                    window.location = '/user/address/';
+                }else{
+                    alert('添加失败');
+                }
+                $('.mask').hide();
+                $('.adddz').hide();
+            }
+        })
+    }
+</script>
+{% endblock footer %}

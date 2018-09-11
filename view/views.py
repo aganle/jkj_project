@@ -1,6 +1,6 @@
 from django.views import View
 from django.shortcuts import render
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, JsonResponse, HttpResponseBadRequest
 
 
 class BaseView(View):
@@ -36,3 +36,19 @@ class BaseRedirectView(View):
         if hasattr(self, 'handle'):
             getattr(self, 'handle')(request, *args, **kwargs)
         return HttpResponseRedirect(self.redirect_url)
+
+# 处理的都是post请求，这个里面不用渲染数据
+# 一般来说不用渲染模板，只需要返回json即可
+# request中有一个方法：is_ajax判断是否是ajax方法
+class OperateView(View):
+    form_cls = None
+    def post(self, request, *args, **kwargs):
+        form = self.form_cls(request.POST.dict())
+        if form.is_valid():
+            handle = self.request.POST.get('type', '')
+            if hasattr(self, handle):
+                return JsonResponse(getattr(self, handle)(request, **form.cleaned_data), safe=False)
+            else:
+                return HttpResponseBadRequest('type没有传递')
+        else:
+            return JsonResponse({'errorcode': -300, 'errormsg': form.errors})
