@@ -33,7 +33,7 @@ class LoginControl(BaseRedirectView):
     def handle(self, request, *args, **kwargs):
         user = User.login(**request.POST.dict())
         request.session['user'] = user
-        print(request.session['user'],'12165451')
+
 
 class AddressForm(forms.Form):
     name = forms.CharField(required=False)

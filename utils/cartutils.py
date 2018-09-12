@@ -80,3 +80,24 @@ class SessionCartManager(CartManager):
             if cartitem_keys_list[0] == key:
                 return cartitem[key]
         return None
+
+    def get_cart_item_by_id(self, goodsid, colorid, sizeid, *args, **kwargs):
+        cart = self.session.get('cart')
+        key = self.__gen_key(goodsid, colorid, sizeid)
+        if cart == None:
+            return None
+        else:
+            for i in range(len(cart)):
+                if list(cart[i].keys())[0] == key:
+                    return list(cart[i].values())[0]
+
+class UserCartManager(CartManager):
+    pass
+
+def get_cart_manager(request):
+    if not request.session.get('user',"") :
+        return SessionCartManager(request.session)
+    else:
+        # 值得考虑，需不需要将ssesion中的购物车数据拷贝到数据库
+        # 删除session的购物车
+        return UserCartManager(request.session)

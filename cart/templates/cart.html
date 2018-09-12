@@ -237,6 +237,7 @@
     
     $('#jiesuan').click(function (){
         var cartitems = $('.order_content').children('.order_lists');
+        var carts = ''
         for(var i=0;i<cartitems.length;i++){
             var cartitem = cartitems.get(i);
             var isChecked = $(cartitem).children('.list_chk').children('input[type="checkbox"]').prop('checked');
@@ -247,10 +248,18 @@
                 var price = $(cartitem).children('.list_sum').children('.sum_price').text();
                 var count = $(cartitem).children('.list_amount').children('.amount_box').children('input[type="text"]').val();
                 price = eval(price.substr(1));
-                total_money += price;
-                total_count += eval(count);
+                var options = goodsid + ','+ colorid + ','+ sizeid + ','+ count;
+                carts += options + ':';
             }
         };
+        $.ajax({
+            url: '/order/',
+            type: 'post',
+            data: 'cartitems='+carts.substr(0, carts.length-1),
+            success: function(data){
+                window.location = data;
+            }
+        })
     })
 
 </script>

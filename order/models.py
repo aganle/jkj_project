@@ -14,4 +14,7 @@ class Order(models.Model):
     # 订单项
     orderitems = models.CharField(max_length=520)
     creeated = models.DateTimeField(auto_now_add=True)
+    payway = models.CharField(max_length=10)
+    status = models.CharField(max_length=20, default='待支付')
+    trade_no = models.CharField(max_length=120, null=True, blank=True)
 

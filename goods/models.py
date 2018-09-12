@@ -87,12 +87,11 @@ class Size(models.Model):
 #库存表
 class Store(models.Model):
     count = models.PositiveIntegerField()
-    color=models.ForeignKey(Color)
-    size=models.ManyToManyField(Size)
-    goods=models.ForeignKey(Goods)
+    color = models.ForeignKey(Color)
+    size = models.ManyToManyField(Size)
+    goods = models.ForeignKey(Goods)
     def __str__(self):
-        return self.goods.gname.encode("UTF-8")
-    def __unicode__(self):
-        return  u'(%s)'%(self.goods.gname)
+        return self.goods.gname
+
     class Meta:
-        db_table='shop_store'
+        db_table = 'shop_store'
